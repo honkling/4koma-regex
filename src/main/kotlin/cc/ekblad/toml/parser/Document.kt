@@ -22,6 +22,7 @@ internal val value: Parser<TomlValue> = parser {
         '[' -> inlineList()
         '{' -> inlineTable()
         't', 'f' -> TomlValue.Bool(boolean())
+        '/' -> TomlValue.Regex(regex())
         else -> oneOf(dateTime, number)
     }
 }

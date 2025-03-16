@@ -241,6 +241,7 @@ private fun TomlMapperConfigurator.defaultConfig() {
             is TomlValue.LocalTime -> it.value
             is TomlValue.LocalDateTime -> it.value
             is TomlValue.OffsetDateTime -> it.value
+            is TomlValue.Regex -> it.value
             is TomlValue.List,
             is TomlValue.Map -> pass()
         }

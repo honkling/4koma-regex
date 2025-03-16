@@ -9,6 +9,13 @@ import java.nio.file.Path
 import java.time.format.DateTimeFormatter
 import kotlin.io.path.outputStream
 
+private val optionToFlag = mapOf(
+    RegexOption.MULTILINE to "m",
+    RegexOption.IGNORE_CASE to "i",
+    RegexOption.COMMENTS to "x",
+    RegexOption.DOT_MATCHES_ALL to "s"
+)
+
 /**
  * Serializes the receiver [TomlDocument] into a valid TOML document using the default serializer
  * and writes it to the given [Appendable].
@@ -103,6 +110,9 @@ private fun TomlSerializerState.writeValue(value: TomlValue) {
         is TomlValue.LocalDateTime -> append(value.value.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
         is TomlValue.LocalTime -> append(value.value.format(DateTimeFormatter.ISO_LOCAL_TIME))
         is TomlValue.OffsetDateTime -> append(value.value.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME))
+        is TomlValue.Regex -> append('/' + value.value.pattern + '/' + value.value.options.joinToString("") {
+            optionToFlag[it] ?: ""
+        })
         is TomlValue.String -> writeValue(value)
     }
 }

@@ -19,7 +19,8 @@ class MiscTests : StringTest {
                 TomlValue.String("foo"),
                 TomlValue.String("bar"),
                 TomlValue.String("baz")
-            )
+            ),
+            "regex" to TomlValue.Regex(Regex("\"((?:\\\\\"|[^\"])*)\"", RegexOption.MULTILINE))
         )
     )
 

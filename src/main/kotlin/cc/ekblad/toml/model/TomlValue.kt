@@ -21,6 +21,20 @@ sealed class TomlValue {
     data class LocalDateTime(val value: java.time.LocalDateTime) : Primitive()
     data class LocalDate(val value: java.time.LocalDate) : Primitive()
     data class LocalTime(val value: java.time.LocalTime) : Primitive()
+    data class Regex(val value: kotlin.text.Regex) : Primitive() {
+        override fun equals(other: Any?): Boolean {
+            if (other is TomlValue.Regex) {
+                val otherValue = other.value
+                return otherValue.options == value.options && otherValue.pattern == value.pattern
+            }
+
+            return super.equals(other)
+        }
+
+        override fun hashCode(): Int {
+            return value.hashCode()
+        }
+    }
 
     data class Map(val properties: kotlin.collections.Map<kotlin.String, TomlValue>) : TomlValue() {
         constructor(vararg entries: Pair<kotlin.String, TomlValue>) : this(entries.toMap())
